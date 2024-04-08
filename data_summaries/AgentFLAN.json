@@ -1,0 +1,51 @@
+{
+    "AgentFLAN": {
+        "Unique Dataset Identifier": "AgentFLAN",
+        "Dataset Name": "AgentFLAN",
+        "Paper Title": "Agent-FLAN: Designing Data and Methods of Effective Agent Tuning for Large Language Models",
+        "Dataset URL": "https://internlm.github.io/Agent-FLAN/",
+        "GitHub URL": "https://github.com/InternLM/Agent-FLAN",
+        "Hugging Face URL": "https://huggingface.co/datasets/internlm/Agent-FLAN",
+        "Papers with Code URL": "",
+        "ArXiv URL": "https://arxiv.org/abs/2403.12881",
+        "Semantic Scholar Corpus ID": "",
+        "Collection": "AgentFLAN",
+        "Collection URL": "https://huggingface.co/datasets/internlm/Agent-FLAN",
+        "Languages": [
+            "English"
+        ],
+        "Task Categories": [
+            "Natural Language Generation",
+            "Instructional Question Answering",
+            "Instruction Following"
+        ],
+        "Model Generated": [
+            "Llama2-7B"
+        ],
+        "Text Sources": [
+            "Other"
+        ],
+        "Format": [
+            "Multi-turn Dialog"
+        ],
+        "Human Annotation": "Yes",
+        "Derived from Datasets": [
+            "AgentInstruct",
+            "ShareGPT Vicuna"
+        ],
+        "Creators": [
+            "University of Science and Technology of China"
+        ],
+        "Licenses": [
+            {
+                "License": "Apache License 2.0",
+                "License URL": "https://www.apache.org/licenses/LICENSE-2.0"
+            }
+        ],
+        "License Notes": "",
+        "License Verified By": "Nayan Saxena",
+        "Dataset Filter IDs": [
+            "AgentFLAN"
+        ]
+    }
+}
