@@ -957,5 +957,6 @@ def download_bactrianx(accepted_filter_ids):
 
 
 def download_agentflan(accepted_filter_ids):
-    dset = huggingface_download("internlm/Agent-FLAN", split="agent_instruct_react")
+    # dset = huggingface_download("internlm/Agent-FLAN")
+    dset = huggingface_download("internlm/Agent-FLAN")
     return dset
