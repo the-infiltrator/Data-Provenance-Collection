@@ -3,6 +3,7 @@ import os
 from collections import Counter
 import pandas as pd
 import sys
+import timeit
 
 # Set the parent directory to the directory containing `src`
 parent_dir = os.path.abspath(os.path.join(os.getcwd(), '..', '..'))
@@ -11,7 +12,6 @@ parent_dir = os.path.abspath(os.path.join(os.getcwd(), '..', '..'))
 src_dir = os.path.join(parent_dir, 'src')
 if src_dir not in sys.path:
     sys.path.append(src_dir)
-
 
 # Now, we can import modules from the src directory
 try:
@@ -58,5 +58,9 @@ downloader = Downloader(
 all_acceptable_filter_ids = [
     v for vs in uid_to_filter_ids.values() for v in vs]
 
-downloader.download_and_prepare(
-    all_acceptable_filter_ids, debug=False)
+# Time the download and prepare process
+start_time = timeit.default_timer()
+downloader.download_and_prepare(all_acceptable_filter_ids, debug=False)
+elapsed_time = timeit.default_timer() - start_time
+
+print(f"Download and preparation completed in {elapsed_time:.2f} seconds.")
