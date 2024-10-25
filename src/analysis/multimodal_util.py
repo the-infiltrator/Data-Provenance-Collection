@@ -1,3 +1,5 @@
+from IPython.display import display
+from PIL import Image
 import sys
 import os
 import datetime
@@ -719,7 +721,10 @@ def plot_altair_worldmap_country(
     plot_dim,
     save_dir=None,
     gini_scores=None,  # A dictionary of Gini scores for each modality
-    crop_percentage=0.11  # Percentage of image width to crop from left and right
+    crop_percentage=0.12,  # Percentage of image width to crop from left and right
+    title_font_size=25,  # Custom font size for the title
+    dpi=600,  # Custom DPI for high-resolution PNGs
+    output_pdf="combined_output.pdf"  # Name of the final combined PDF file
 ):
     # Default to the current working directory if save_dir is not specified
     if save_dir is None:
@@ -759,10 +764,11 @@ def plot_altair_worldmap_country(
         ).properties(
             width=plot_dim,
             height=plot_dim//2,
-            # Minimize padding around charts
             padding={"left": 0, "right": 0, "top": 0, "bottom": 0}
         ).configure_view(
             strokeWidth=0  # Remove any borders around the chart
+        ).configure_title(
+            fontSize=title_font_size  # Increase title font size
         ).transform_lookup(
             lookup="id",
             from_=alt.LookupData(modality_data, "Country ID", [
@@ -780,7 +786,8 @@ def plot_altair_worldmap_country(
         modality_name = modality.lower().replace(" ", "_")
         png_filename = os.path.join(
             save_dir, f"dataset_count_{modality_name}.png")
-        chart.save(png_filename, ppi=300)  # Save with high resolution
+        chart.save(png_filename, scale_factor=2,
+                   ppi=dpi)  # High-resolution DPI
         chart_filenames.append(png_filename)
 
         # Display each chart inline (optional, during the loop)
@@ -789,6 +796,10 @@ def plot_altair_worldmap_country(
     # Crop and recombine the saved images using Pillow
     combined_image_path = crop_and_combine_images(
         chart_filenames, save_dir, "combined_image.png", crop_percentage)
+
+    # Convert the combined image to PDF and save it
+    convert_combined_image_to_pdf(
+        combined_image_path, os.path.join(save_dir, output_pdf))
 
     # Display the combined image
     display(Image.open(combined_image_path))
@@ -830,6 +841,25 @@ def crop_and_combine_images(image_paths, save_dir, output_filename, crop_percent
     combined_image.save(output_path)
 
     return output_path
+
+
+def convert_combined_image_to_pdf(combined_image_path, output_pdf):
+    """Converts a combined image (panoramic) to a single-page PDF."""
+    image = Image.open(combined_image_path).convert('RGB')
+
+    # Save the single image as a one-page PDF
+    image.save(output_pdf)
+    print(f"PDF saved to {output_pdf}")
+
+
+def convert_pngs_to_pdf_with_pillow(png_files, output_pdf):
+    """Converts a list of PNG files into a single PDF using Pillow."""
+    images = [Image.open(png_file).convert('RGB') for png_file in png_files]
+
+    # Save the first image, and append the rest as pages to the PDF
+    if images:
+        images[0].save(output_pdf, save_all=True, append_images=images[1:])
+        print(f"PDF saved to {output_pdf}")
 
 
 def plot_altair_worldmap_continent(
